@@ -1,6 +1,6 @@
 FROM public.ecr.aws/amazonlinux/amazonlinux:2023
 
-LABEL maintainer="ronan.gill@catapult.cx"
+LABEL maintainer="prasad.duddi@madetech.com"
 LABEL org.label-schema.description="JDK 21 image based on amazonlinux and amazon corretto"
 
 RUN touch /var/lib/rpm/* && \
