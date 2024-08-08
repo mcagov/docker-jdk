@@ -1,11 +1,12 @@
 FROM public.ecr.aws/amazonlinux/amazonlinux:2023
 
 LABEL maintainer="prasad.duddi@madetech.com"
-LABEL org.label-schema.description="JDK 21 image based on amazonlinux and amazon corretto"
+LABEL org.label-schema.description="JDK 17 image based on amazonlinux and amazon corretto"
+
 
 RUN touch /var/lib/rpm/* && \
     dnf update -y && \
-    dnf install -y gzip tar binutils freetype fontconfig java-21-amazon-corretto-devel && \
+    dnf install -y gzip tar binutils freetype fontconfig java-17-amazon-corretto-devel && \
     javac --version && \
     java --version && \
     rm -rf /tmp/* && \
@@ -14,7 +15,7 @@ RUN touch /var/lib/rpm/* && \
     dnf install -y util-linux
 
 
-ENV JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto.x86_64
+ENV JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto.x86_64
 
 CMD ["java","-version"]
 
