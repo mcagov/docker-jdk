@@ -1,11 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image '009543623063.dkr.ecr.eu-west-2.amazonaws.com/jenkins-docker-ci:latest'
-            alwaysPull true
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
 
     environment {
         DOCKER_REGISTRY = '009543623063.dkr.ecr.eu-west-2.amazonaws.com'
@@ -42,6 +36,17 @@ pipeline {
                         }
                     }
                 }
+
+        stage('Initialise') {
+                agent {
+                    docker {
+                        image '009543623063.dkr.ecr.eu-west-2.amazonaws.com/jenkins-docker-ci:latest'
+                        alwaysPull true
+                        args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    }
+                }
+            }
+
         stage('build') {
             steps {
                 sh '''
