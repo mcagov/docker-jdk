@@ -27,7 +27,7 @@ pipeline {
 
     stages {
         stage('Authenticate to ECR') {
-                    steps {
+              steps {
                         withCredentials([aws(credentialsId: "${AWS_CREDENTIALS_ID}", accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                             script {
                                  def AWS_PASSWORD = sh(script: "aws ecr get-login-password --region ${AWS_REGION}", returnStdout: true).trim()
@@ -37,17 +37,14 @@ pipeline {
                     }
                 }
 
-        stage('Initialise') {
-                agent {
-                    docker {
-                        image '009543623063.dkr.ecr.eu-west-2.amazonaws.com/jenkins-docker-ci:latest'
-                        alwaysPull true
-                        args '-v /var/run/docker.sock:/var/run/docker.sock'
-                    }
-                }
-            }
-
         stage('build') {
+            agent {
+                            docker {
+                                image '009543623063.dkr.ecr.eu-west-2.amazonaws.com/jenkins-docker-ci:latest'
+                                alwaysPull true
+                                args '-v /var/run/docker.sock:/var/run/docker.sock'
+                            }
+            }
             steps {
                 sh '''
                     docker build ${DOCKER_OPTS} -t "${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_TAG}" .
