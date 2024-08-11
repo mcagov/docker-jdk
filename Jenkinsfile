@@ -10,6 +10,9 @@ pipeline {
         DOCKER_BUILDKIT = '1'
         AWS_REGION = 'eu-west-2'
         BRANCH_NAME = 'develop'
+        AWS_REGION = 'eu-west-2'
+        ECR_REPO = '009543623063.dkr.ecr.eu-west-2.amazonaws.com/jenkins-gradle-ci'
+        AWS_CREDENTIALS_ID = 'aws-jenkins-service-account-credentials' // ID for AWS credentials in Jenkins
     }
 
     triggers {
