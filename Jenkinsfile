@@ -14,6 +14,8 @@ pipeline {
         DOCKER_TAG = "${env.BRANCH_NAME == 'master' ? 'latest' : env.BRANCH_NAME}"
         DOCKER_OPTS = '--pull --compress --no-cache=true --force-rm=true --progress=plain '
         DOCKER_BUILDKIT = '1'
+        AWS_REGION = 'eu-west-2'
+        BRANCH_NAME = 'develop'
     }
 
     triggers {
@@ -30,6 +32,16 @@ pipeline {
     }
 
     stages {
+        stage('Authenticate to ECR') {
+                    steps {
+                        withCredentials([aws(credentialsId: "${AWS_CREDENTIALS_ID}", accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                            script {
+                                 def AWS_PASSWORD = sh(script: "aws ecr get-login-password --region ${AWS_REGION}", returnStdout: true).trim()
+                                 sh "echo ${AWS_PASSWORD} | docker login --username AWS --password-stdin 009543623063.dkr.ecr.${AWS_REGION}.amazonaws.com"
+                            }
+                        }
+                    }
+                }
         stage('build') {
             steps {
                 sh '''
