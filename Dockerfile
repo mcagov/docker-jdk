@@ -4,8 +4,8 @@ LABEL maintainer="ronan.gill@catapult.cx"
 LABEL org.label-schema.description="JDK 21 image based on amazonlinux and amazon corretto"
 
 RUN touch /var/lib/rpm/* && \
-    dnf update -y
-
+    dnf update -y && \
+  dnf install -y gzip tar binutils freetype fontconfig java-21-amazon-corretto-devel
 
 ENV JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto.x86_64
 
